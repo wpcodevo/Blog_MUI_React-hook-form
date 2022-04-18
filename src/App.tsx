@@ -1,7 +1,6 @@
 import { Box, Container, CssBaseline } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from './theme';
-import TestPage from './components/test';
 
 function App() {
   return (
@@ -16,7 +15,8 @@ function App() {
             height: '100vh',
           }}
         >
-          <TestPage />
+          {/*  */}
+          <p>Hello Image Upload</p>
         </Box>
       </Container>
     </ThemeProvider>
