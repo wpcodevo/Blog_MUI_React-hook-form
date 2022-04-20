@@ -9,7 +9,8 @@ import { ReactComponent as GoogleLogo } from '../assets/google.svg';
 import { ReactComponent as GitHubLogo } from '../assets/github.svg';
 import { LinkItem, OauthMuiLink } from './login.page';
 
-const registerSchema = object({
+// 👇 SignUp Schema with Zod
+const signupSchema = object({
   name: string().nonempty('Name is required').max(70),
   email: string().nonempty('Email is required').email('Email is invalid'),
   password: string()
@@ -22,25 +23,30 @@ const registerSchema = object({
   message: 'Passwords do not match',
 });
 
-type ISignUp = TypeOf<typeof registerSchema>;
-
-const defaultValues: ISignUp = {
-  name: '',
-  email: '',
-  password: '',
-  passwordConfirm: '',
-};
+// 👇 Infer the Schema to get TypeScript Type
+type ISignUp = TypeOf<typeof signupSchema>;
 
 const SignupPage: FC = () => {
+  // 👇 Default Values
+  const defaultValues: ISignUp = {
+    name: '',
+    email: '',
+    password: '',
+    passwordConfirm: '',
+  };
+
+  // 👇 Object containing all the methods returned by useForm
   const methods = useForm<ISignUp>({
-    resolver: zodResolver(registerSchema),
+    resolver: zodResolver(signupSchema),
     defaultValues,
   });
 
+  // 👇 Form Handler
   const onSubmitHandler: SubmitHandler<ISignUp> = (values: ISignUp) => {
-    console.log(values);
+    console.log(JSON.stringify(values, null, 4));
   };
 
+  // 👇 Returned JSX
   return (
     <Container
       maxWidth={false}
