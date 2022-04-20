@@ -1,25 +1,17 @@
-import { Box, Container, CssBaseline } from '@mui/material';
-import { ThemeProvider } from '@mui/material/styles';
-import theme from './theme';
+import { CssBaseline } from '@mui/material';
+import { Route, Routes } from 'react-router-dom';
+import LoginPage from './pages/login.page';
+import SignupPage from './pages/Signup.page';
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <CssBaseline />
-      <Container maxWidth={false}>
-        <Box
-          display='flex'
-          sx={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '100vh',
-          }}
-        >
-          {/*  */}
-          <p>Hello Image Upload</p>
-        </Box>
-      </Container>
-    </ThemeProvider>
+      <Routes>
+        <Route path='/' element={<LoginPage />} />
+        <Route path='/signup' element={<SignupPage />} />
+      </Routes>
+    </>
   );
 }
 
