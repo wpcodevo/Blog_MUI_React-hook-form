@@ -9,10 +9,6 @@
     "@mui/icons-material": "^5.6.1",
     "@mui/lab": "^5.0.0-alpha.77",
     "@mui/material": "^5.6.1",
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.0.1",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.4.1",
     "@types/node": "^16.11.27",
     "@types/react": "^18.0.5",
     "@types/react-dom": "^18.0.1",
@@ -25,15 +21,14 @@
     "zod": "^3.14.4"
   },
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
-      "react-app/jest"
+      "react-app"
     ]
   },
   "browserslist": {
@@ -48,9 +43,5 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "babel-plugin-import": "^1.13.5",
-    "customize-cra": "^1.0.0",
-    "react-app-rewired": "^2.2.1"
-  }
+  "devDependencies": {}
 }
