@@ -12,12 +12,14 @@ import uploadImg from '../assets/cloud-upload.png';
 import { ImageConfig } from './FileConfig';
 import { Controller, useController, useFormContext } from 'react-hook-form';
 
-interface IProps {
+// 👇 FileUpload Props Here
+interface IFileUploadProps {
   limit: number;
   multiple: boolean;
   name: string;
 }
 
+// 👇 Custom Styles for the Box Component
 const CustomBox = styled(Box)({
   '&.MuiBox-root': {
     backgroundColor: '#fff',
@@ -30,30 +32,36 @@ const CustomBox = styled(Box)({
   },
 });
 
-const FileUpload: React.FC<IProps> = ({ limit, multiple, name }) => {
+// 👇 FileUpload Component
+const FileUpload: React.FC<IFileUploadProps> = ({ limit, multiple, name }) => {
+  // 👇 Form Context
   const {
     control,
     formState: { isSubmitting, errors },
   } = useFormContext();
+
+  // 👇 State with useState()
   const { field } = useController({ name, control });
   const [singleFile, setSingleFile] = useState<File[]>([]);
   const [fileList, setFileList] = useState<File[]>([]);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
+  // 👇 Toggle the dragover class
   const onDragEnter = () => wrapperRef.current?.classList.add('dragover');
   const onDragLeave = () => wrapperRef.current?.classList.remove('dragover');
 
+  // 👇 Image Upload Service
   const onFileDrop = useCallback(
     (e: React.SyntheticEvent<EventTarget>) => {
       const target = e.target as HTMLInputElement;
       if (!target.files) return;
 
       if (limit === 1) {
+        console.log(target.files);
         const newFile = Object.values(target.files).map((file: File) => file);
         if (singleFile.length >= 1) return alert('Only a single image allowed');
-        const updatedSingleList = [...singleFile, ...newFile];
-        setSingleFile(updatedSingleList);
-        field.onChange(updatedSingleList[0]);
+        setSingleFile(newFile);
+        field.onChange(newFile[0]);
       }
 
       if (multiple) {
@@ -71,26 +79,29 @@ const FileUpload: React.FC<IProps> = ({ limit, multiple, name }) => {
     [field, fileList, limit, multiple, singleFile]
   );
 
+  // 👇 remove multiple images
   const fileRemove = (file: File) => {
     const updatedList = [...fileList];
     updatedList.splice(fileList.indexOf(file), 1);
     setFileList(updatedList);
   };
 
-  const fileSingleRemove = (file: File) => {
-    const updatedList = [...singleFile];
-    updatedList.splice(singleFile.indexOf(file), 1);
-    setSingleFile(updatedList);
+  // 👇 remove single image
+  const fileSingleRemove = () => {
+    setSingleFile([]);
   };
 
+  // 👇 TypeScript Type
   type CustomType = 'jpg' | 'png' | 'svg';
 
+  // 👇 Calculate Size in KiloByte and MegaByte
   const calcSize = (size: number) => {
     return size < 1000000
       ? `${Math.floor(size / 1000)} KB`
       : `${Math.floor(size / 1000000)} MB`;
   };
 
+  // 👇 Reset the State
   useEffect(() => {
     if (isSubmitting) {
       setFileList([]);
@@ -98,6 +109,7 @@ const FileUpload: React.FC<IProps> = ({ limit, multiple, name }) => {
     }
   }, [isSubmitting]);
 
+  // 👇 Actual JSX
   return (
     <>
       <CustomBox>
@@ -170,6 +182,7 @@ const FileUpload: React.FC<IProps> = ({ limit, multiple, name }) => {
         {errors[name] ? errors[name].message : ''}
       </FormHelperText>
 
+      {/* 👇Image Preview 👇 */}
       {fileList.length > 0 || singleFile.length > 0 ? (
         <Stack spacing={2} sx={{ my: 2 }}>
           {(multiple ? fileList : singleFile).map((item, index) => {
@@ -205,7 +218,7 @@ const FileUpload: React.FC<IProps> = ({ limit, multiple, name }) => {
                     if (multiple) {
                       fileRemove(item);
                     } else {
-                      fileSingleRemove(item);
+                      fileSingleRemove();
                     }
                   }}
                   sx={{

@@ -14,6 +14,26 @@ export const uploadAPI = createApi({
         };
       },
     }),
+    uploadSingleImage: builder.mutation<{}, FormData>({
+      query(data) {
+        return {
+          url: 'upload/single',
+          method: 'POST',
+          credentials: 'include',
+          body: data,
+        };
+      },
+    }),
+    uploadMultipleImage: builder.mutation<{}, FormData>({
+      query(data) {
+        return {
+          url: 'upload/multiple',
+          method: 'POST',
+          credentials: 'include',
+          body: data,
+        };
+      },
+    }),
   }),
 });
 
