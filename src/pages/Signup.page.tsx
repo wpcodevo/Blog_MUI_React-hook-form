@@ -11,13 +11,13 @@ import { LinkItem, OauthMuiLink } from './login.page';
 
 // 👇 SignUp Schema with Zod
 const signupSchema = object({
-  name: string().nonempty('Name is required').max(70),
-  email: string().nonempty('Email is required').email('Email is invalid'),
+  name: string().min(1, 'Name is required').max(70),
+  email: string().min(1, 'Email is required').email('Email is invalid'),
   password: string()
-    .nonempty('Password is required')
+    .min(1, 'Password is required')
     .min(8, 'Password must be more than 8 characters')
     .max(32, 'Password must be less than 32 characters'),
-  passwordConfirm: string().nonempty('Please confirm your password'),
+  passwordConfirm: string().min(1, 'Please confirm your password'),
 }).refine((data) => data.password === data.passwordConfirm, {
   path: ['passwordConfirm'],
   message: 'Passwords do not match',
