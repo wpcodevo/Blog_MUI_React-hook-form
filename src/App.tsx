@@ -12,25 +12,31 @@ import { array, object, TypeOf, z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import FileUpload from './components/FileUpload';
 import theme from './theme';
-import { useUploadImageMutation } from './redux/uploadAPI';
+import {
+  useUploadImageMutation,
+  useUploadMultipleImageMutation,
+  useUploadSingleImageMutation,
+} from './redux/uploadAPI';
 
 const imageUploadSchema = object({
-  imageCover: z.instanceof(File),
+  image: z.instanceof(File),
   images: array(z.instanceof(File)),
 });
 
 type IUploadImage = TypeOf<typeof imageUploadSchema>;
 
 function App() {
-  const [uploadImage] = useUploadImageMutation();
+  const [uploadImage] = useUploadMultipleImageMutation();
 
   const methods = useForm<IUploadImage>({
     resolver: zodResolver(imageUploadSchema),
   });
 
+  // console.log(methods.formState.errors);
+
   const onSubmitHandler: SubmitHandler<IUploadImage> = (values) => {
     const formData = new FormData();
-    formData.append('imageCover', values.imageCover);
+    formData.append('image', values.image);
 
     if (values.images.length > 0) {
       values.images.forEach((el) => formData.append('images', el));
@@ -72,7 +78,7 @@ function App() {
                   >
                     Single Image Upload
                   </Typography>
-                  <FileUpload limit={1} multiple={false} name='imageCover' />
+                  <FileUpload limit={1} multiple={false} name='image' />
                 </Stack>
                 {/* Multiple Image Upload */}
                 <Typography

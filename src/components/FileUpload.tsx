@@ -179,7 +179,7 @@ const FileUpload: React.FC<IFileUploadProps> = ({ limit, multiple, name }) => {
         sx={{ textAlign: 'center', my: 1 }}
         error={!!errors[name]}
       >
-        {errors[name] ? errors[name].message : ''}
+        {errors[name] ? (errors[name]?.message as unknown as string) : ''}
       </FormHelperText>
 
       {/* 👇Image Preview 👇 */}

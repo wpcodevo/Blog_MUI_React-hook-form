@@ -37,4 +37,8 @@ export const uploadAPI = createApi({
   }),
 });
 
-export const { useUploadImageMutation } = uploadAPI;
+export const {
+  useUploadImageMutation,
+  useUploadSingleImageMutation,
+  useUploadMultipleImageMutation,
+} = uploadAPI;
